@@ -8,7 +8,9 @@ const axiosApiUrl = axios.create({
   baseURL:baseURL
 });
 
-export function getUpdate(){
-    axios.get(`https://api.nasa.gov/planetary/earth/assets?lon=-95.33&lat=29.78&date=2018-01-01&&dim=0.10&api_key=${API_KEY}`).then(res => res.data)
+export async function getUpdate(){
+   return await axios.get(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?limit=20&sol=1000&api_key=${API_KEY
+    }`)
+    .then(res => res.data)
     
 }
