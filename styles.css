@@ -1,0 +1,89 @@
+.navbar {
+    width: 100%;
+    height: 100px;
+    background-color:white;
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+}
+.logoContainer{
+    min-width: 7%;
+    height: 100px;
+    background-color:white;  
+
+}
+.logoContainer img{
+    height: 90%;
+}
+.navbarContainer {
+    width:92%;
+    height: 100px;
+    background-color: white;
+}
+#topContainer {
+    background-color:rgb(13, 122, 239);
+    width: 100%;
+    height: 50%;
+    font-weight: 500;
+}
+#topContainer a {
+    color: white;
+    text-decoration: none;
+    line-height: 3rem;
+  padding: 0 1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  z-index: 20;
+  position: relative;
+}
+#topContainer a:hover {
+    background-color: rgb(5, 146, 240);
+}
+#bottomContainer {
+    background-color: rgb(228, 223, 223);
+    width: 100%;
+    height: 50%;
+  
+}
+#bottomContainer a {
+    text-decoration: none;
+    line-height: 3rem;
+  padding: 0 1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 500;
+  color:black
+}
+#bottomContainer a:hover {
+    background-color: rgb(212, 199, 199);
+}
+
+/* sidebar */
+
+#sideBar {
+    background-color: black;
+    min-height: 750px;
+    min-width:100px;
+    background-image:url("/src/asset/material/background-stars.jpeg");
+    background-size: cover;
+}
+.sideBarItem {
+    width: 100%;
+    height:10%;
+}
+.sideBarItem img{
+    width: 50%;
+    height:8%;
+    background-color: transparent;
+}
+.sideBarItem img:hover{
+    width: 60%;
+    height:9%;
+    cursor: pointer;
+}
+#footer {
+    background-color: rgb(73, 32, 32);
+    width: 100%;
+    height: 100px;
+}
