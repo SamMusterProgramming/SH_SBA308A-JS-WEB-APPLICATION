@@ -6096,9 +6096,10 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 var baseURL = "https://vigilant-space-parakeet-97j7wxg4pvj5cr6v-8080.app.github.dev";
-var axiosApiUrl = _axios.default.create({
-  baseURL: baseURL
-});
+var API_KEY = "_u3Nnmb8WOBfOH7z8aguYw6Gapayz9cKApQ4ZJ_ZMRo";
+// const axiosApiUrl = axios.create({
+//   baseURL:baseURL
+// });
 function getPosts() {
   return _getPosts.apply(this, arguments);
 }
@@ -6108,7 +6109,7 @@ function _getPosts() {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return _axios.default.get("http://localhost:8080/posts").then(function (res) {
+          return _axios.default.get("https://api.unsplash.com/photos/?client_id=".concat(API_KEY)).then(function (res) {
             return res.data;
           });
         case 2:
@@ -6285,12 +6286,27 @@ var _sideBar = require("./sideBar/sideBar");
 (0, _nav.setUpTopBar)();
 // setUpSideBar();
 
-var container = document.querySelector('#container');
+var wrapper1 = document.querySelector('#imgWrapper1');
+var wrapper2 = document.querySelector('#imgWrapper2');
+var wrapper3 = document.querySelector('#imgWrapper3');
+function createPhoto(src) {
+  var div = document.createElement('div');
+  var img = document.createElement('img');
+  div.setAttribute('class', 'container-fluid d-flex');
+  img.src = src;
+  img.style.minWidth = "100%";
+  // img.style.minHeight = "10%"
+  div.appendChild(img);
+  return div;
+}
 (0, _apiCalls.getPosts)().then(function (data) {
-  return console.log(data);
+  console.log(data);
+  data.map(function (photo, index) {
+    if (index % 3 == 0) wrapper1.appendChild(createPhoto(photo.urls.small));
+    if (index % 3 == 1) wrapper2.appendChild(createPhoto(photo.urls.small));
+    if (index % 3 == 2) wrapper3.appendChild(createPhoto(photo.urls.small));
+  });
 });
-
-//
 },{"./apiCalls":"src/apiCalls.js","./navbar/nav":"src/navbar/nav.js","./sideBar/sideBar":"src/sideBar/sideBar.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -6316,7 +6332,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45821" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42825" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

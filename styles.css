@@ -62,10 +62,10 @@
 /* sidebar */
 
 #sideBar {
-    background-color: black;
+    /* background-color: black; */
     min-height: 750px;
-    min-width:100px;
-    background-image:url("/src/asset/material/background-stars.jpeg");
+    min-width: 200px;
+    /* background-image:url("/src/asset/material/background-stars.jpeg"); */
     background-size: cover;
 }
 .sideBarItem {
@@ -77,11 +77,37 @@
     height:8%;
     background-color: transparent;
 }
-.sideBarItem img:hover{
-    width: 60%;
-    height:9%;
-    cursor: pointer;
+.sideBarItem button{
+   font-size: 18px;
+   color:white;
+   font-weight: 500;
+   text-decoration: none;
+   background-color: rgb(64, 143, 143);
+   width: 80%;
+   height: 70px;
+   border-radius: 10px;
+   border: none;
 }
+
+.sideBarItem button:hover{
+    font-size: 20px;
+    background-color: rgb(38, 179, 226);
+}
+
+.displayer{
+ 
+}
+
+#imgWrapper1{
+    width:33%;
+}
+#imgWrapper2{
+    width:33%;
+}
+#imgWrapper3{
+    width:33%;
+}
+
 #footer {
     background-color: rgb(73, 32, 32);
     width: 100%;
