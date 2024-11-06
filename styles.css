@@ -94,8 +94,8 @@
     background-color: rgb(38, 179, 226);
 }
 
-.displayer{
- 
+#displayer{
+  width: 100%;
 }
 
 #imgWrapper1{
@@ -107,6 +107,30 @@
 #imgWrapper3{
     width:33%;
 }
+
+/* tooltip for imgs */
+.tooltip {
+    display: block;
+    border-bottom: 1px dotted black;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 50px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: center;
+    z-index: 1;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
 
 #footer {
     background-color: rgb(73, 32, 32);
