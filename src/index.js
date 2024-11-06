@@ -82,6 +82,7 @@ mouseOverImage(wrapper1)
 mouseOverImage(wrapper2)
 mouseOverImage(wrapper3)
 
+
 // random image of the day 
 
 random.addEventListener('click',(e)=>{
@@ -91,8 +92,8 @@ random.addEventListener('click',(e)=>{
         console.log(data)
         let img = document.createElement('img')
         img.src = data.urls.regular;
-        img.style.width = "100%"
-        img.style.height = "750px"
+        img.style.width = "60%"
+        img.style.height = "550px"
         displayer.appendChild(img)
     })
 })

@@ -6396,8 +6396,8 @@ random.addEventListener('click', function (e) {
     console.log(data);
     var img = document.createElement('img');
     img.src = data.urls.regular;
-    img.style.width = "100%";
-    img.style.height = "750px";
+    img.style.width = "60%";
+    img.style.height = "550px";
     displayer.appendChild(img);
   });
 });
@@ -6426,7 +6426,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41633" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42177" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
