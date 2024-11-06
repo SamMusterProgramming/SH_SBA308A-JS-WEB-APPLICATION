@@ -6146,7 +6146,29 @@ function _getRandom() {
   }));
   return _getRandom.apply(this, arguments);
 }
-},{"axios":"node_modules/axios/index.js"}],"src/navbar/Links.js":[function(require,module,exports) {
+},{"axios":"node_modules/axios/index.js"}],"src/displayerStaff.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.favouriteHeart = void 0;
+//******* favourite section ******
+
+// create favourite heart button here and export it to index.js
+var favouriteHeart = exports.favouriteHeart = function favouriteHeart() {
+  var favButton = document.createElement('button');
+  favButton.innerHTML = "<i class=\"fa fa-heart\" style=\"font-size:38px;\"></i>";
+  favButton.style.position = "absolute";
+  favButton.style.marginTop = "5px";
+  favButton.style.marginRight = "5px";
+  favButton.style.backgroundColor = "transparent";
+  favButton.style.border = "none";
+  favButton.style.color = "lightpink";
+  favButton.style.opacity = "70%";
+  return favButton;
+};
+},{}],"src/navbar/Links.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6305,8 +6327,13 @@ function setUpSideBar() {
 "use strict";
 
 var _apiCalls = require("./apiCalls");
+var _displayerStaff = require("./displayerStaff");
 var _nav = require("./navbar/nav");
 var _sideBar = require("./sideBar/sideBar");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -6315,6 +6342,7 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 (0, _nav.setUpTopBar)();
 var photoArray = [];
+var favouriteList = [];
 var displayer = document.querySelector('#displayer');
 var wrapper1 = document.querySelector('#imgWrapper1');
 var wrapper2 = document.querySelector('#imgWrapper2');
@@ -6324,7 +6352,7 @@ var random = document.querySelector('#random');
 
 // call the getPosts from module apiCalls.js to get data containing photos and display images in the wrappers 1 , 2 ,3 
 
-// *****************when you click the button naviagte , images will be displayed *************************
+// ***************** when you click the button naviagte , images will be displayed *************************
 
 navigate.addEventListener('click', function (e) {
   displayer.innerHTML = "";
@@ -6348,7 +6376,8 @@ function clearWrapper() {
   wrapper3.innerHTML = "";
 }
 
-//  a function that create img element for each url we get from API call , plus descrition and its author
+//  a function that create img element for each url we get from API call , plus descrition and the author, also I added icon heart botton 
+// with listening event click event that calls addTofavourite function
 function createPhoto(src, description, author) {
   var div = document.createElement('div');
   div.style.backgroundColor = "black";
@@ -6360,10 +6389,43 @@ function createPhoto(src, description, author) {
   var descrip = document.createElement('div');
   descrip.innerHTML = "<span>DESCRIPTION</span><p>".concat(description, "</p>\n                         <span>AUTHOR</span><p>").concat(author, "</p> ");
   descrip.setAttribute('class', 'description');
+  // call function favouriteHeart to create the heart button 
+  var fav = (0, _displayerStaff.favouriteHeart)();
+  if (isAlreadFavourite(src)) fav.style.color = "red";
+  fav.addEventListener("click", function (e) {
+    addToFavourite(src, description, author) ? fav.style.color = "lightpink" : fav.style.color = "red";
+    console.log(favouriteList);
+  });
+  div.appendChild(fav);
   div.appendChild(img);
   div.appendChild(descrip);
   return div;
 }
+// too add src , author ... to favouriteList 
+function addToFavourite(src, description, author) {
+  var exist = false;
+  favouriteList.map(function (fav) {
+    if (fav.src == src) exist = true;
+  });
+  favouriteList = _toConsumableArray(favouriteList.filter(function (Element) {
+    return Element.src !== src;
+  }));
+  if (!exist) {
+    favouriteList.push(_defineProperty(_defineProperty(_defineProperty({}, "src", src), "description", description), "author", author));
+  }
+  return exist;
+}
+
+// check if a photo is in a favourite list
+function isAlreadFavourite(src) {
+  var exist = false;
+  favouriteList.map(function (fav) {
+    if (fav.src == src) exist = true;
+  });
+  return exist;
+}
+
+// when hover over image , we display the details , description, author name ... 
 var selectedElement = [];
 function mouseOverImage(wrapper) {
   wrapper.addEventListener('mouseover', function (e) {
@@ -6387,7 +6449,7 @@ mouseOverImage(wrapper1);
 mouseOverImage(wrapper2);
 mouseOverImage(wrapper3);
 
-// random image of the day 
+//**************************** */ random image of the day **************************************
 
 random.addEventListener('click', function (e) {
   clearWrapper();
@@ -6398,10 +6460,19 @@ random.addEventListener('click', function (e) {
     img.src = data.urls.regular;
     img.style.width = "60%";
     img.style.height = "550px";
+    var fav = (0, _displayerStaff.favouriteHeart)();
+    if (isAlreadFavourite(data.urls.regular, data.alt_description, data.user.name)) fav.style.color = "red";
+    fav.addEventListener("click", function (e) {
+      addToFavourite(data.urls.regular, data.alt_description, data.user.name) ? fav.style.color = "lightpink" : fav.style.color = "red";
+      console.log(favouriteList);
+    });
+    displayer.appendChild(fav);
     displayer.appendChild(img);
   });
 });
-},{"./apiCalls":"src/apiCalls.js","./navbar/nav":"src/navbar/nav.js","./sideBar/sideBar":"src/sideBar/sideBar.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+
+//*********************************** */ album photos *************************************************
+},{"./apiCalls":"src/apiCalls.js","./displayerStaff":"src/displayerStaff.js","./navbar/nav":"src/navbar/nav.js","./sideBar/sideBar":"src/sideBar/sideBar.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -6426,7 +6497,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42177" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43231" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
