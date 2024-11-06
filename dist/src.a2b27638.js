@@ -6354,11 +6354,15 @@ var random = document.querySelector('#random');
 
 // ***************** when you click the button naviagte , images will be displayed *************************
 
-navigate.addEventListener('click', function (e) {
+function resetDisplayer() {
   displayer.innerHTML = "";
+  clearWrapper();
   displayer.appendChild(wrapper1);
   displayer.appendChild(wrapper2);
   displayer.appendChild(wrapper3);
+}
+navigate.addEventListener('click', function (e) {
+  resetDisplayer();
   (0, _apiCalls.getPosts)().then(function (data) {
     data.map(function (photo, index) {
       photoArray = _toConsumableArray(data);
@@ -6472,6 +6476,17 @@ random.addEventListener('click', function (e) {
 });
 
 //*********************************** */ album photos *************************************************
+
+var favourite = document.querySelector('#favourites');
+favourite.addEventListener('click', function (e) {
+  resetDisplayer();
+  favouriteList.map(function (photo, index) {
+    console.log(photo);
+    if (index % 3 == 0) wrapper1.appendChild(createPhoto(photo.src, photo.description, photo.author));
+    if (index % 3 == 1) wrapper2.appendChild(createPhoto(photo.src, photo.description, photo.author));
+    if (index % 3 == 2) wrapper3.appendChild(createPhoto(photo.src, photo.description, photo.author));
+  });
+});
 },{"./apiCalls":"src/apiCalls.js","./displayerStaff":"src/displayerStaff.js","./navbar/nav":"src/navbar/nav.js","./sideBar/sideBar":"src/sideBar/sideBar.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

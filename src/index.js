@@ -22,11 +22,16 @@ const random = document.querySelector('#random')
 // ***************** when you click the button naviagte , images will be displayed *************************
 
 
-navigate.addEventListener('click',(e) =>{
+function resetDisplayer() {
     displayer.innerHTML = ""
+    clearWrapper()
     displayer.appendChild(wrapper1);
     displayer.appendChild(wrapper2);
     displayer.appendChild(wrapper3)
+}
+
+navigate.addEventListener('click',(e) =>{
+    resetDisplayer()
     getPosts().then((data) => { 
         data.map((photo,index) => {
             photoArray = [...data]
@@ -144,4 +149,14 @@ random.addEventListener('click',(e)=>{
 
 //*********************************** */ album photos *************************************************
 
-
+const favourite = document.querySelector('#favourites')
+favourite.addEventListener('click',(e)=> {
+    
+     resetDisplayer();
+     favouriteList.map((photo,index) => {
+             console.log(photo)
+            if(index%3 == 0)   wrapper1.appendChild(createPhoto(photo.src,photo.description, photo.author ))
+            if(index%3 == 1)   wrapper2.appendChild(createPhoto(photo.src,photo.description ,photo.author  ))
+            if(index%3 == 2)   wrapper3.appendChild(createPhoto(photo.src,photo.description ,photo.author))
+     })
+})
