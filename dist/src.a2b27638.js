@@ -6290,43 +6290,60 @@ function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Sym
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 (0, _nav.setUpTopBar)();
-// setUpSideBar();
 var photoArray = [];
 var wrapper1 = document.querySelector('#imgWrapper1');
 var wrapper2 = document.querySelector('#imgWrapper2');
 var wrapper3 = document.querySelector('#imgWrapper3');
-function createPhoto(src) {
-  var div = document.createElement('div');
-  var img = document.createElement('img');
-  div.setAttribute('class', 'container-fluid');
-  img.src = src;
-  img.style.width = "100%";
-  img.style.height = "350px";
-  div.appendChild(img);
-  return div;
-}
+
+// call the getPosts from module apiCalls.js to get data containing photos and display images in the wrappers 1 , 2 ,3 
 (0, _apiCalls.getPosts)().then(function (data) {
   console.log(data);
   data.map(function (photo, index) {
     photoArray = _toConsumableArray(data);
-    if (index % 3 == 0) wrapper1.appendChild(createPhoto(photo.urls.small));
-    if (index % 3 == 1) wrapper2.appendChild(createPhoto(photo.urls.small));
-    if (index % 3 == 2) wrapper3.appendChild(createPhoto(photo.urls.small));
+    if (index % 3 == 0) wrapper1.appendChild(createPhoto(photo.urls.small, photo.alt_description, photo.user.name));
+    if (index % 3 == 1) wrapper2.appendChild(createPhoto(photo.urls.small, photo.alt_description, photo.user.name));
+    if (index % 3 == 2) wrapper3.appendChild(createPhoto(photo.urls.small, photo.alt_description, photo.user.name));
   });
 });
-wrapper1.addEventListener('mouseover', function (e) {
-  e.preventDefault();
-  var img = e.target;
-  img.style.height = "250px";
-  var content = document.createElement('p');
-  content.textContent = "Samir is good wooow";
-  img.parentElement.appendChild(content);
-});
 
-// <div class="tooltip"><img class="size_of_img"
-//  src="https://babeltechreviews.com/wp-content/uploads/2018/07/rendition1.img_.jpg" alt="Image 1" /><span class="tooltiptext">grewon.pdf</span></div>
-
-// <p>Note that the position of the tooltip text isn't very good. Check More Position <a href="https://www.w3schools.com/css/css_tooltip.asp">GO</a></p>
+//  a function that create img element for each url we get from API call , plus descrition and its author
+function createPhoto(src, description, author) {
+  var div = document.createElement('div');
+  div.style.backgroundColor = "black";
+  var img = document.createElement('img');
+  div.setAttribute('class', '');
+  img.src = src;
+  img.style.width = "100%";
+  img.style.height = "350px";
+  var descrip = document.createElement('div');
+  descrip.innerHTML = "<span>DESCRIPTION</span><p>".concat(description, "</p>\n                         <span>AUTHOR</span><p>").concat(author, "</p> ");
+  descrip.setAttribute('class', 'description');
+  div.appendChild(img);
+  div.appendChild(descrip);
+  return div;
+}
+var selectedElement = [];
+function mouseOverImage(wrapper) {
+  wrapper.addEventListener('mouseover', function (e) {
+    e.preventDefault();
+    if (e.target.tagName !== "IMG") return false;
+    if (selectedElement.length != 0) {
+      console.log(selectedElement);
+      selectedElement[0].style.display = "none";
+      selectedElement[1].style.height = "350px";
+    }
+    selectedElement.shift();
+    selectedElement.shift();
+    var img = e.target;
+    img.style.height = "250px";
+    img.nextSibling.style.display = "block";
+    selectedElement.push(img.nextSibling);
+    selectedElement.push(img);
+  });
+}
+mouseOverImage(wrapper1);
+mouseOverImage(wrapper2);
+mouseOverImage(wrapper3);
 },{"./apiCalls":"src/apiCalls.js","./navbar/nav":"src/navbar/nav.js","./sideBar/sideBar":"src/sideBar/sideBar.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -6352,7 +6369,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42825" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41633" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
