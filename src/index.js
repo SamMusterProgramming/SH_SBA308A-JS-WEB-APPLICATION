@@ -1,4 +1,4 @@
-import { getPosts } from "./apiCalls";
+import { getPosts,getRandom } from "./apiCalls";
 import {setUpTopBar} from "./navbar/nav"
 import { setUpSideBar, sideBar } from "./sideBar/sideBar";
 
@@ -7,20 +7,38 @@ setUpTopBar();
 
 
 let photoArray =[];
+const displayer = document.querySelector('#displayer')
 const wrapper1 = document.querySelector('#imgWrapper1')
 const wrapper2 = document.querySelector('#imgWrapper2')
 const wrapper3 = document.querySelector('#imgWrapper3');
+const navigate = document.querySelector('#navigate');
+const random = document.querySelector('#random')
 
 // call the getPosts from module apiCalls.js to get data containing photos and display images in the wrappers 1 , 2 ,3 
-getPosts().then((data) => { console.log(data)
-    data.map((photo,index) => {
-        photoArray = [...data]
-        if(index%3 == 0)   wrapper1.appendChild(createPhoto(photo.urls.small,photo.alt_description,photo.user.name ))
-        if(index%3 == 1)   wrapper2.appendChild(createPhoto(photo.urls.small,photo.alt_description ,photo.user.name  ))
-        if(index%3 == 2)   wrapper3.appendChild(createPhoto(photo.urls.small,photo.alt_description ,photo.user.name ))
-    })
+
+
+// *****************when you click the button naviagte , images will be displayed *************************
+
+
+navigate.addEventListener('click',(e)=>{
+    displayer.innerHTML = ""
+    displayer.appendChild(wrapper1);
+    displayer.appendChild(wrapper2);
+    displayer.appendChild(wrapper3)
+    getPosts().then((data) => { 
+        data.map((photo,index) => {
+            photoArray = [...data]
+            if(index%3 == 0)   wrapper1.appendChild(createPhoto(photo.urls.small,photo.alt_description, photo.user.name ))
+            if(index%3 == 1)   wrapper2.appendChild(createPhoto(photo.urls.small,photo.alt_description ,photo.user.name  ))
+            if(index%3 == 2)   wrapper3.appendChild(createPhoto(photo.urls.small,photo.alt_description ,photo.user.name ))
+        })
+     })
 })
- 
+
+// clear the wrappers 
+function clearWrapper(){
+    wrapper1.innerHTML = "";    wrapper2.innerHTML = "";    wrapper3.innerHTML = "";
+}
 
 //  a function that create img element for each url we get from API call , plus descrition and its author
 function createPhoto(src,description,author) {
@@ -64,5 +82,17 @@ mouseOverImage(wrapper1)
 mouseOverImage(wrapper2)
 mouseOverImage(wrapper3)
 
+// random image of the day 
 
-
+random.addEventListener('click',(e)=>{
+    clearWrapper()
+    displayer.innerHTML = ""
+    getRandom().then((data) => {
+        console.log(data)
+        let img = document.createElement('img')
+        img.src = data.urls.regular;
+        img.style.width = "100%"
+        img.style.height = "750px"
+        displayer.appendChild(img)
+    })
+})
