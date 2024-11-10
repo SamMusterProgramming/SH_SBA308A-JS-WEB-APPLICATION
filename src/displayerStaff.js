@@ -1,5 +1,5 @@
 
-
+import { getBreeds, getDogs } from "./apiCalls"
 
 //******* favourite section ******
 
@@ -16,3 +16,19 @@
         favButton.style.opacity = "70%";
         return favButton; 
 }
+
+// set up the dog breed selector 
+
+export const selectBreed = document.querySelector('#breedSelect')
+
+export function setUpBreedSelector() {
+    getBreeds().then(data => {
+    data.map(breed =>{
+        const breedSelected = document.createElement('option')
+        breedSelected.textContent = breed.name;
+        selectBreed.appendChild(breedSelected);
+    })
+})
+}
+
+

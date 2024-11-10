@@ -1,5 +1,5 @@
-import { getPosts,getRandom } from "./apiCalls";
-import { favouriteHeart } from "./displayerStaff";
+import { getDogs, getPosts,getRandom,getBreeds } from "./apiCalls";
+import { favouriteHeart, selectBreed, selectedBreed, setUpBreedSelector } from "./displayerStaff";
 import {setUpTopBar} from "./navbar/nav"
 import { setUpSideBar, sideBar } from "./sideBar/sideBar";
 
@@ -14,13 +14,14 @@ const wrapper1 = document.querySelector('#imgWrapper1')
 const wrapper2 = document.querySelector('#imgWrapper2')
 const wrapper3 = document.querySelector('#imgWrapper3');
 const navigate = document.querySelector('#navigate');
+const search = document.querySelector('#search')
 const random = document.querySelector('#random')
 
-// call the getPosts from module apiCalls.js to get data containing photos and display images in the wrappers 1 , 2 ,3 
 
 
 // ***************** when you click the button naviagte , images will be displayed *************************
 
+// call the getPosts from module apiCalls.js to get data containing photos and display images in the wrappers 1 , 2 ,3 
 
 function resetDisplayer() {
     displayer.innerHTML = ""
@@ -30,7 +31,13 @@ function resetDisplayer() {
     displayer.appendChild(wrapper3)
 }
 
-navigate.addEventListener('click',(e) =>{
+navigate.addEventListener('click',(e)=> {
+    e.preventDefault();
+    breedSelect.style.visibility ="visible";
+    search.style.visibility ="visible";
+})
+
+search.addEventListener('click',(e) =>{
     resetDisplayer()
     getPosts().then((data) => { 
         data.map((photo,index) => {
@@ -42,7 +49,7 @@ navigate.addEventListener('click',(e) =>{
      })
 })
 
-// clear the wrappers 
+// clear the wrappers function
 function clearWrapper(){
     wrapper1.innerHTML = "";    wrapper2.innerHTML = "";    wrapper3.innerHTML = "";
 }
@@ -51,7 +58,7 @@ function clearWrapper(){
 
 //  a function that create img element for each url we get from API call , plus descrition and the author, also I added icon heart botton 
 // with listening event click event that calls addTofavourite function
-function createPhoto(src,description,author) {
+function createPhoto(src,description= "unknown",author="unknown") {
     let div = document.createElement('div');
     div.style.backgroundColor = "black"
     let img = document.createElement('img');
@@ -144,6 +151,25 @@ random.addEventListener('click',(e)=>{
         displayer.appendChild(img)
     })
 })
+
+
+//**************************** DOG PHOTOS*****************************************************
+// call this function from displayerStaff module
+setUpBreedSelector();
+
+selectBreed.addEventListener('change',(e)=>{ 
+    e.preventDefault();
+    getDogs(e.target.value).then( photos =>{
+        resetDisplayer();
+        photos.map((photo,index) => {
+             if(index%3 == 0)   wrapper1.appendChild(createPhoto(photo.url ))
+             if(index%3 == 1)   wrapper2.appendChild(createPhoto(photo.url))
+             if(index%3 == 2)   wrapper3.appendChild(createPhoto(photo.url))
+        })
+    } )
+}) 
+
+
 
 
 
